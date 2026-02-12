@@ -1,0 +1,52 @@
+<!-- player.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Persistent Player</title>
+  <style>
+    body {
+      margin: 0;
+      background: transparent;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <audio id="audio-player" autoplay loop></audio>
+
+  <script>
+    const maxIndex = 10;
+    const trackList = Array.from({ length: maxIndex }, (_, i) => i + 1);
+    let currentShuffledIndex = 0;
+    const audio = document.getElementById('audio-player');
+
+    function loadTrack(index) {
+      const trackNum = trackList[index];
+      audio.src = `Songs/${trackNum}.wav`;
+      audio.load();
+      audio.play();
+    }
+
+    function nextTrack() {
+      currentShuffledIndex = (currentShuffledIndex + 1) % trackList.length;
+      loadTrack(currentShuffledIndex);
+    }
+
+    function prevTrack() {
+      currentShuffledIndex = (currentShuffledIndex - 1 + trackList.length) % trackList.length;
+      loadTrack(currentShuffledIndex);
+    }
+
+    window.addEventListener('message', function(event) {
+      if (event.data === 'next') nextTrack();
+      if (event.data === 'prev') prevTrack();
+      if (event.data === 'toggle') audio.paused ? audio.play() : audio.pause();
+    });
+
+    window.onload = () => loadTrack(currentShuffledIndex);
+  </script>
+</body>
+</html>

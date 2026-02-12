@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rachel's iPod</title>
+  <style>
+    body {
+      background-color: #fff7c9;
+      font-family: monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-top: 30px;
+    }
+
+    .ipod-container {
+      position: relative;
+      width: 200%;
+      top: 150px;
+      height: 0;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+
+    .ipod {
+      width: 100%;
+      image-rendering: pixelated;
+      display: block;
+    }
+
+    #album-cover {
+        position: absolute;
+        top: 170px;
+        left: 275px;
+        width: 49%;
+        height: 335px;
+        object-fit: cover;
+        pointer-events: none;
+        border-radius: 10px;
+        border-color: 2px solid #000;
+        }
+
+    .controls {
+      margin-top: 30px;
+    }
+
+    .nav-button {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .next-visible-button {
+      font-size: 18px;
+      padding: 12px 24px;
+      background-color: transparent;
+      color:transparent;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      top: 710px;
+      left: 140px;
+      width: 100px;
+      height: 110px;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-visible-button {
+      font-size: 18px;
+      padding: 12px 24px;
+      background-color: transparent;
+      color: transparent;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      top: 575px;
+      left: -90px;
+      height: 100px;
+      width: 100px;
+      transition: background-color 0.3s ease;
+    }
+
+    .play-song-button {
+      font-size: 18px;
+      padding: 2px;
+      background-color: transparent;
+      color: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+      width: 10%;
+      height: 100px;
+      top: 525px;
+      left: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .play-song-button:hover {
+      background-color: transparent;
+    }
+
+    .screen-button {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    #message-container {
+        margin-top: -200px;
+        text-align: center;
+    }
+
+    #message-img {
+        max-width: 40%;
+        height: auto;
+        image-rendering: pixelated;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .menu-button {
+      position: relative;
+      top: 250px;
+      left: 25px;
+      width: 10%;
+      height: 100px;
+      padding: 10px 20px;
+      background-color:transparent;
+      color: transparent;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 5;
+    }
+
+
+.popup-overlay {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+#popup-message-img {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: red;
+  color: white;
+  border: none;
+  font-size: 16px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+    #playPauseBtn { left: 705px; top: 630px; }
+    #nextBtn      { left: 768px; top: 581px; }
+    #prevBtn      { left: 631px; top: 581px; }
+    .popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  position: relative;
+  background: transparent;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#popup-message-img {
+  max-width: 90vw;
+  max-height: 80vh;
+  image-rendering: pixelated;
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: red;
+  color: white;
+  border: none;
+  font-size: 16px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.topnav{
+  background-color: #333;
+  overflow:hidden;
+}
+
+/* Style the links inside the navigation bar 
+*/
+.topnav a{
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a.hover{
+  background-color: #ddd;
+  color:black;
+}
+
+.topnav a.active{
+  background-color: rgb(20, 78, 20);
+  color: white;
+}
+
+#volumeBtn {
+  font-size: 18px;
+  position: relative;
+  top: -600px;
+  left: 315px;
+  height: 50px;
+  width: 50px;
+  border: black 2px solid;
+  border-radius: 0px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 10px;
+}  
+
+#volumeSlider{
+  position: absolute;
+  top: 275px;
+  left: 710px;
+  width: 200px;
+  rotate: -90deg;
+  z-index: 10;
+  background: white;
+  accent-color: white;
+  border-radius: 10px;
+}
+  </style>
+</head>
+<body>
+  <div class = "topnav">
+    <a class = "active" href = "index.html">Home</a>
+    <a class = "Letter" href = "Weekly.html">Weekly NewsLetter</a>
+    <a class = "Polls" href = "Polls.html">Polls</a>
+    <!-- <a class = "Logout" href = "/logout">Logout</a> -->
+  </div>
+
+  </div>
+  <div class="ipod-container">
+    <img src="ipods.png" alt="Pixel iPod" class="ipod">
+    <img id="album-cover" src="">
+    <button id="volumeBtn" onclick="toggleMute()">🔊</button>
+    <input
+    type="range"
+    id="volumeSlider"
+    min="0"
+    max="1"
+    step="0.01"
+    value="1"
+    oninput="setVolume(this.value)"
+  >
+  </div>
+  <br>
+  <br>
+  <!-- <div>
+    Dear Rai Rai,
+  <br>
+    Thank you for being the best friend that I'd want for eternity.
+  <br>
+    While we're apart from each other, I made you a playlist of songs 
+  <br> 
+    that reminded me of our memories. 
+  <br>
+    I told you I'd show you my demos when you comeback
+  <br>
+    but I wanted to give you one special present 
+  <br>
+    before you head to the Philippines.
+  <br>
+    at the end of this playlist I released my demo before you leave.
+  <br>
+    I love you so much and I can't express it enough through words < 3
+  <br>
+  Love,
+  <br>
+  The Phil Dunphy to your Claire 
+  <br>
+  Gilir 
+  -->
+
+  <button class="screen-button" id="playPauseBtn" onclick="togglePlay()"></button>
+  <button class="screen-button" id="nextBtn" onclick="nextTrack()"></button>
+  <button class="screen-button" id="prevBtn" onclick="prevTrack()"></button>
+
+  <div class="controls">
+    <audio id="audio-player" style="display:none;"></audio>
+  </div>
+
+  <div class="controls">
+  <button class="next-visible-button" onclick="nextTrack()">Next ▶️</button>
+  <audio id="audio-player" style="display:none;"></audio>
+  </div>
+
+  <div class="controls">
+  <button class="back-visible-button" onclick="prevTrack()">Back ⏪</button>
+  <audio id="audio-player" style="display:none;"></audio>
+  </div>
+
+  <div class="controls">
+  <button class="play-song-button" onclick="playCurrentSong()">▶️ Play Song</button>
+  <audio id="audio-player" style="display:none;"></audio>
+  </div>
+
+<!-- Button to trigger the popup -->
+<!-- <button onclick="showMessageImage()">💌 Read Message</button> -->
+
+<!-- Popup container -->
+<div id="image-popup" class="popup-overlay">
+  <div class="popup-content">
+    <button class="close-button" onclick="closeImagePopup()">✖</button>
+    <img src="A_pixel_art_digital_text_message_addressed_to_Rai_.png" alt="Message Image" id="popup-message-img">
+  </div>
+</div>
+
+
+
+  <button class="menu-button" onclick="openMenu()">MENU</button>
+  
+  <div id="message-popup" class="popup-overlay">
+  <div class="popup-content">
+    <button class="close-button" onclick="closeMenu()">✖</button>
+    <div id="popup-message-content"></div>
+  </div>
+  </div>
+
+
+
+  <script>
+    const maxIndex = 10;
+    let trackList = Array.from({ length: maxIndex }, (_, i) => i + 1);
+
+
+    let currentShuffledIndex = 0;
+
+    const album = document.getElementById('album-cover');
+    const audio = document.getElementById('audio-player');
+
+    function playCurrentSong(){
+        if(!audio.src) return;
+        const btn = document.querySelector('.play-song-button');
+    
+        if(audio.paused){
+            audio.play();
+            btn.textContent = '⏸Pause Song';
+        } else {
+            audio.pause();
+            btn.textContent = 'Play Song';
+        }
+    }
+
+    function pauseCurrentSong(){
+        if(!audio.src) return;
+        audio.pause();
+    }
+
+    function loadTrack(index) {
+      const trackNum = trackList[index];
+      album.src = `Photos/${trackNum}.png`;
+      audio.src = `Songs/${trackNum}.wav`;
+        audio.oncanplaythrough = () => {
+    audio.play();
+    };
+      audio.load();
+    }
+
+    function nextTrack() {
+      currentShuffledIndex++;
+      if (currentShuffledIndex >= trackList.length) currentShuffledIndex = 0;
+      loadTrack(currentShuffledIndex);
+      audio.play();
+    }
+
+    function prevTrack() {
+      currentShuffledIndex--;
+      if (currentShuffledIndex < 0) currentShuffledIndex = trackList.length - 1;
+      loadTrack(currentShuffledIndex);
+      audio.play();
+    }
+
+    function togglePlay() {
+      if (!audio.src) return;
+      audio.paused ? audio.play() : audio.pause();
+    }
+
+function openMenu() {
+    const trackNum = trackList[currentShuffledIndex];
+    const popup = document.getElementById('message-popup');
+    const content = document.getElementById('popup-message-content');
+
+    if (trackNum === 10) {
+        // Show PDF
+        content.innerHTML = `
+            <iframe src="Message/10.pdf" style="width: 100%; height: 100%; border: none;"></iframe>
+        `;
+    } else {
+        // Show image
+        content.innerHTML = `
+            <img src="Message/${trackNum}.png" id="popup-message-img" alt="Message Image">
+        `;
+    }
+
+    popup.style.display = 'flex';
+}
+
+    function closeMenu() {
+        const popup = document.getElementById('message-popup');
+        popup.style.display = 'none';
+    }
+
+    window.onload = () => loadTrack(currentShuffledIndex);
+  function toggleMute() {
+    const audio = document.getElementById("audio-player");
+    const volumeBtn = document.getElementById("volumeBtn");
+
+    if (audio.muted) {
+      audio.muted = false;
+      volumeBtn.textContent = "🔊"; 
+    } else {
+      audio.muted = true;
+      volumeBtn.textContent = "🔇"; 
+    }
+  }
+
+  function setVolume(value) {
+    const audio = document.getElementById("audio-player");
+    if (audio) {
+      audio.volume = value;
+      console.log("Volume set to:", value); 
+    } else {
+      console.log("Audio element not found!");
+    }
+  }
+
+  </script>
+
+</body>
+</html>

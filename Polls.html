@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Polls Page</title>
+  <style>
+    body {
+      background-color: #fff7c9;
+      font-family: monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .topnav {
+      background-color: #333;
+      overflow: hidden;
+    }
+
+    .topnav a {
+      float: left;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .topnav a.active {
+      background-color: rgb(20, 78, 20);
+      color: white;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    /* Tabs */
+    .tabs {
+      margin: 20px auto 10px;
+      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 10px;
+      background: #333;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tab-btn.active {
+      background: rgb(20, 78, 20);
+    }
+
+    .tab-panel {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .image-block {
+      margin: 20px auto;
+      display: inline-block;
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* Previous poll card */
+    .poll-card {
+      background: white;
+      margin: 12px auto;
+      padding: 14px;
+      border-radius: 12px;
+      max-width: 920px;
+      text-align: left;
+    }
+
+    .poll-card h2, .poll-card h3 {
+      text-align: left;
+      margin: 0 0 10px;
+    }
+
+    .archived-note {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    /* ---- Camera layout (prevents shaking) ---- */
+    .cam-card {
+      background: #fff;
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 420px;      /* change size if you want */
+      height: 320px;     /* fixed height prevents page reflow */
+      border-radius: 14px;
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    #cam, #overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    #statusText {
+      min-height: 26px; /* stops text from pushing layout */
+      margin: 10px 0 0;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    #resultLabel {
+      min-height: 22px; /* stops jitter */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topnav">
+    <a class="active" href="index.html">Home</a>
+    <a class="Letter" href="Weekly.html">Weekly NewsLetter</a>
+    <a class="Polls" href="Polls.html">Polls</a>
+  </div>
+
+  <div class="container">
+    <br>
+    <button onclick="toggleWeeklyAudio()">🔊 Mute/Unmute Song</button>
+
+    <audio id="polls-audio" autoplay loop>
+      <source src="weeklymusic/Baby.wav" type="audio/wav">
+    </audio>
+
+    <h1>Hello my love 💕 please vote below</h1>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="currentPollTab">Current Poll</button>
+      <button class="tab-btn" data-tab="previousPollsTab">Previous Polls</button>
+    </div>
+
+    <!-- ===================== -->
+    <!-- CURRENT POLL (Poll #2) -->
+    <!-- ===================== -->
+    <div id="currentPollTab" class="tab-panel active">
+      <section id="poll-2">
+        <h1>Poll #2: Will you be my Valentine?</h1>
+        <h3>Show a thumbs up 👍 for YES 💕</h3>
+
+        <p id="statusText"></p>
+
+        <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:16px;">
+          <!-- Camera -->
+          <div class="cam-card">
+            <div class="video-wrapper">
+              <video id="cam" autoplay playsinline muted></video>
+              <canvas id="overlay"></canvas>
+            </div>
+          </div>
+
+          <!-- Result -->
+          <div style="background:#fff; padding:12px; border-radius:12px; max-width:360px;">
+            <h3 style="margin-top:0;">Result</h3>
+
+          <div id="resultLabel"
+          style="margin-top:20px; font-size:22px; font-weight:bold; min-height:60px;">
+          Waiting for thumbs…
+         </div>
+
+            <button id="startBtn" type="button" style="margin-top:14px;">Enable Camera</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===================== -->
+    <!-- PREVIOUS POLLS (Poll #1 archived) -->
+    <!-- ===================== -->
+    <div id="previousPollsTab" class="tab-panel">
+      <h1>Previous Polls 💾</h1>
+
+      <div class="poll-card" id="poll-1-archived">
+        <h2>Poll #1 (Archived): Lock screen photo</h2>
+        <div class="archived-note">
+          This poll is archived (read-only). It shows the last saved selection.
+        </div>
+
+        <h3>Which photo should I use for my phone lock screen?</h3>
+        <p>Also this is a test storage so screenshot and send in the RayGil album pls 🥺</p>
+
+        <div class="image-block">
+          <img src="Wallpapers/1.JPG" width="300" height="400" alt="Image 1"><br>
+          <b>Option:</b> Image 1
+        </div>
+
+        <div class="image-block">
+          <img src="Wallpapers/2.JPG" width="300" height="400" alt="Image 2"><br>
+          <b>Option:</b> Image 2
+        </div>
+
+        <div class="image-block">
+          <img src="Wallpapers/3.JPG" width="300" height="400" alt="Image 3"><br>
+          <b>Option:</b> Image 3
+        </div>
+
+        <div class="image-block">
+          <img src="Wallpapers/4.JPG" width="300" height="400" alt="Image 4"><br>
+          <b>Option:</b> Image 4
+        </div>
+
+        <div class="result" id="archivedResult1"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleWeeklyAudio() {
+      const audio = document.getElementById("polls-audio");
+      if (audio) audio.muted = !audio.muted;
+    }
+
+    // Tabs logic
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+
+    function switchTab(tabId) {
+      tabPanels.forEach(p => p.classList.remove("active"));
+      tabButtons.forEach(b => b.classList.remove("active"));
+
+      document.getElementById(tabId).classList.add("active");
+      document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add("active");
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+    });
+
+    // Load Poll #1 archived display (read-only)
+    window.addEventListener("load", () => {
+      const lastVote1 = localStorage.getItem('lastVoteGlobal_poll1');
+      const archivedResult = document.getElementById("archivedResult1");
+      archivedResult.textContent = lastVote1
+        ? `Last saved selection: ${lastVote1}`
+        : `No saved selection found for Poll #1 yet.`;
+    });
+  </script>
+
+  <!-- MediaPipe Hands -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.min.js"></script>
+
+  <script>
+    const videoEl = document.getElementById("cam");
+    const canvasEl = document.getElementById("overlay");
+    const ctx = canvasEl.getContext("2d");
+
+    const statusText = document.getElementById("statusText");
+    function showNo() {
+      resultLabel.textContent = "Nopeee 😭 try again (show thumbs up 👍)";
+      statusText.textContent = "Detected: thumbs down 👎";
+    }
+    const resultLabel = document.getElementById("resultLabel");
+    const startBtn = document.getElementById("startBtn");
+
+    let locked = false;
+    let lastGesture = "none";
+    let gestureStableCount = 0;
+
+    function showNo() {
+      resultLabel.textContent = "Nopeee 😭 try again (show thumbs up 👍)";
+      statusText.textContent = "Detected: thumbs down 👎";
+    }
+
+    function showWaiting() {
+      resultLabel.textContent = "Waiting for thumbs…";
+      statusText.textContent = "Detected: none";
+    }
+    function showYesAndRedirect() {
+        locked = true;
+        resultLabel.textContent = "YES!! 💕💕💕 Redirecting...";
+        statusText.textContent = "Detected: thumbs up 👍";
+
+        localStorage.setItem("valentine_answer", "YES");
+
+        setTimeout(() => {
+          window.location.href = "love.html";
+      }, 700);
+    }
+
+    // More forgiving thumbs classifier
+    function classifyThumbGesture(landmarks) {
+      const wrist = landmarks[0];
+      const thumbTip = landmarks[4];
+      const thumbIP  = landmarks[3];
+
+      // thumb up/down based on y position vs wrist
+      const thumbUp = thumbTip.y < wrist.y - 0.03;
+      const thumbDown = thumbTip.y > wrist.y + 0.03;
+
+      // thumb extended (not curled)
+      const thumbExtended =
+        Math.abs(thumbTip.y - thumbIP.y) > 0.015 || Math.abs(thumbTip.x - thumbIP.x) > 0.015;
+
+      if (thumbExtended && thumbUp) return "up";
+      if (thumbExtended && thumbDown) return "down";
+      return "none";
+    }
+
+    const hands = new Hands({
+      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+    });
+
+    hands.setOptions({
+      maxNumHands: 1,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.7,
+      minTrackingConfidence: 0.7,
+    });
+
+    hands.onResults((results) => {
+      // lock canvas size to match video feed -> avoids shimmer
+      if (results.image) {
+        canvasEl.width = results.image.width;
+        canvasEl.height = results.image.height;
+      }
+
+      ctx.save();
+      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+
+      // draw camera frame into canvas (canvas overlays video)
+      ctx.drawImage(results.image, 0, 0, canvasEl.width, canvasEl.height);
+
+      if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+        const lm = results.multiHandLandmarks[0];
+
+        drawConnectors(ctx, lm, HAND_CONNECTIONS, { lineWidth: 3 });
+        drawLandmarks(ctx, lm, { lineWidth: 2 });
+
+        const gesture = classifyThumbGesture(lm);
+
+        // show debug
+        if (!locked) statusText.textContent = `Detected: ${gesture}`;
+
+        // stability filter (faster)
+        if (gesture === lastGesture && gesture !== "none") {
+          gestureStableCount++;
+        } else {
+          gestureStableCount = 0;
+          lastGesture = gesture;
+        }
+
+        if (!locked && gestureStableCount >= 2) {
+          if (gesture === "up") showYesAndRedirect();
+          if (gesture === "down") showNo();
+        }
+
+        if (!locked && gesture === "none") {
+          showWaiting();
+        }
+      } else {
+        if (!locked) showWaiting();
+      }
+
+      ctx.restore();
+    });
+
+    async function startCamera() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        statusText.textContent =
+          "Camera not available. Use http://localhost or https:// in Chrome/Safari.";
+        throw new Error("getUserMedia unavailable");
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      videoEl.srcObject = stream;
+
+      const camera = new Camera(videoEl, {
+        onFrame: async () => {
+          await hands.send({ image: videoEl });
+        },
+      });
+
+      camera.start();
+      startBtn.disabled = true;
+      startBtn.textContent = "Camera Enabled ✅";
+      showWaiting();
+    }
+
+    startBtn.addEventListener("click", () => {
+      startCamera().catch((err) => {
+        statusText.textContent = "Camera error: " + err.message;
+      });
+    });
+  </script>
+
+</body>
+</html>
