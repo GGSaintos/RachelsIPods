@@ -3,16 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <title>I LOOOVE YOUU</title>
+
   <style>
     body {
       background: #fff7c9;
       font-family: monospace;
       text-align: center;
       margin: 0;
+      padding: 0;
+    }
+
+    /* Top Menu */
+    .topnav {
+      background-color: #333;
+      overflow: hidden;
+    }
+
+    .topnav a {
+      float: left;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .topnav a.active {
+      background-color: rgb(20, 78, 20);
+      color: white;
+    }
+
+    .container {
       padding: 40px 16px;
     }
-    h1 { font-size: 48px; margin: 0 0 12px; }
-    p { font-size: 20px; }
+
+    h1 { 
+      font-size: 48px; 
+      margin: 0 0 12px; 
+    }
+
+    p { 
+      font-size: 20px; 
+    }
+
     .card {
       background: white;
       padding: 24px;
@@ -20,13 +53,70 @@
       display: inline-block;
       max-width: 720px;
     }
+
+    button {
+      margin-top: 14px;
+      padding: 10px 18px;
+      font-size: 16px;
+      border: none;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    audio {
+      margin-top: 14px;
+      width: min(500px, 95%);
+    }
   </style>
 </head>
+
 <body>
-  <div class="card">
-    <h1>I LOOOVE YOUU 💖💖💖</h1>
-    <p>Happy Valentine’s, my baby 🥺</p>
-    <p>(Now come here 😌)</p>
+
+  <!-- MAIN MENU -->
+  <div class="topnav">
+    <a href="index.html">Home</a>
+    <a href="Weekly.html">Weekly NewsLetter</a>
+    <a class="active" href="Polls.html">Polls</a>
   </div>
+
+  <div class="container">
+
+    <button onclick="toggleLoveAudio()">🔊 Mute / Unmute</button>
+
+    <!-- Audio Player -->
+    <audio id="love-audio" autoplay loop controls>
+      <source src="Songs/2.wav" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+
+    <br><br>
+
+    <div class="card">
+      <h1>I LOOOVE YOUU 💖💖💖</h1>
+      <p>Happy Valentine’s, my baby 🥺</p>
+      <p>(Now come here 😌)</p>
+
+      <br>
+
+      <button onclick="window.location.href='Polls.html'">
+        ⬅ Back to Poll
+      </button>
+
+      <button onclick="window.location.href='index.html'">
+        🏠 Main Menu
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleLoveAudio() {
+      const audio = document.getElementById("love-audio");
+      audio.muted = !audio.muted;
+    }
+  </script>
+
 </body>
 </html>
