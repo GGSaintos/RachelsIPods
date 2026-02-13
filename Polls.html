@@ -12,11 +12,7 @@
       padding: 0;
     }
 
-    .topnav {
-      background-color: #333;
-      overflow: hidden;
-    }
-
+    .topnav { background-color: #333; overflow: hidden; }
     .topnav a {
       float: left;
       color: white;
@@ -25,17 +21,10 @@
       text-decoration: none;
       font-size: 17px;
     }
+    .topnav a.active { background-color: rgb(20, 78, 20); color: white; }
 
-    .topnav a.active {
-      background-color: rgb(20, 78, 20);
-      color: white;
-    }
+    .container { padding: 20px; }
 
-    .container {
-      padding: 20px;
-    }
-
-    /* Tabs */
     .tabs {
       margin: 20px auto 10px;
       display: inline-flex;
@@ -43,7 +32,6 @@
       flex-wrap: wrap;
       justify-content: center;
     }
-
     .tab-btn {
       padding: 10px 14px;
       border: none;
@@ -53,19 +41,10 @@
       cursor: pointer;
       font-size: 14px;
     }
+    .tab-btn.active { background: rgb(20, 78, 20); }
 
-    .tab-btn.active {
-      background: rgb(20, 78, 20);
-    }
-
-    .tab-panel {
-      display: none;
-      margin-top: 20px;
-    }
-
-    .tab-panel.active {
-      display: block;
-    }
+    .tab-panel { display: none; margin-top: 20px; }
+    .tab-panel.active { display: block; }
 
     .image-block {
       margin: 20px auto;
@@ -86,13 +65,8 @@
       border-radius: 6px;
     }
 
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
+    .result { margin-top: 20px; font-size: 18px; font-weight: bold; }
 
-    /* Previous poll card */
     .poll-card {
       background: white;
       margin: 12px auto;
@@ -101,17 +75,8 @@
       max-width: 920px;
       text-align: left;
     }
-
-    .poll-card h2, .poll-card h3 {
-      text-align: left;
-      margin: 0 0 10px;
-    }
-
-    .archived-note {
-      font-size: 14px;
-      opacity: 0.8;
-      margin-bottom: 10px;
-    }
+    .poll-card h2, .poll-card h3 { text-align: left; margin: 0 0 10px; }
+    .archived-note { font-size: 14px; opacity: 0.8; margin-bottom: 10px; }
 
     /* --- Try Again Video Modal --- */
     #tryAgainModal {
@@ -133,7 +98,6 @@
       width: min(860px, 95vw);
       text-align: center;
     }
-
     #tryAgainCard h2 { margin: 0 0 10px; }
 
     #tryAgainVideo {
@@ -143,13 +107,8 @@
       background: #000;
     }
 
-    /* ---- Camera layout (prevents shaking) ---- */
-    .cam-card {
-      background: #fff;
-      padding: 12px;
-      border-radius: 12px;
-    }
-
+    /* ---- Camera layout ---- */
+    .cam-card { background: #fff; padding: 12px; border-radius: 12px; }
     .video-wrapper {
       position: relative;
       width: 420px;
@@ -158,7 +117,6 @@
       overflow: hidden;
       background: #ddd;
     }
-
     #cam, #overlay {
       position: absolute;
       inset: 0;
@@ -173,7 +131,6 @@
       font-weight: bold;
       font-size: 18px;
     }
-
     #resultLabel { min-height: 22px; }
   </style>
 </head>
@@ -190,7 +147,9 @@
     <br>
     <button onclick="toggleWeeklyAudio()">🔊 Mute/Unmute Song</button>
 
-    <audio id="polls-audio" autoplay loop>
+    <!-- IMPORTANT: autoplay may be BLOCKED by browser until user clicks.
+         We'll start it on the Enable Camera click (below) for reliability. -->
+    <audio id="polls-audio" loop preload="auto">
       <source src="weeklymusic/Baby.wav" type="audio/wav">
     </audio>
 
@@ -202,7 +161,6 @@
     </div>
 
     <!-- Current Poll #2 -->
-
     <div id="currentPollTab" class="tab-panel active">
       <section id="poll-2">
         <h1>Poll #2: Will you be my Valentine?</h1>
@@ -212,7 +170,6 @@
         <p id="statusText"></p>
 
         <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:16px;">
-    
           <div class="cam-card">
             <div class="video-wrapper">
               <video id="cam" playsinline muted></video>
@@ -220,7 +177,6 @@
             </div>
           </div>
 
-          <!-- Result -->
           <div style="background:#fff; padding:12px; border-radius:12px; max-width:360px;">
             <h3 style="margin-top:0;">Result</h3>
 
@@ -235,9 +191,7 @@
       </section>
     </div>
 
-    <!-- ===================== -->
-    <!-- PREVIOUS POLLS (Poll #1 archived) -->
-    <!-- ===================== -->
+    <!-- Previous Polls -->
     <div id="previousPollsTab" class="tab-panel">
       <h1>Previous Polls 💾</h1>
 
@@ -254,17 +208,14 @@
           <img src="Wallpapers/1.JPG" width="300" height="400" alt="Image 1"><br>
           <b>Option:</b> Image 1
         </div>
-
         <div class="image-block">
           <img src="Wallpapers/2.JPG" width="300" height="400" alt="Image 2"><br>
           <b>Option:</b> Image 2
         </div>
-
         <div class="image-block">
           <img src="Wallpapers/3.JPG" width="300" height="400" alt="Image 3"><br>
           <b>Option:</b> Image 3
         </div>
-
         <div class="image-block">
           <img src="Wallpapers/4.JPG" width="300" height="400" alt="Image 4"><br>
           <b>Option:</b> Image 4
@@ -276,11 +227,11 @@
 
   </div>
 
-  <!-- Try Again Modal-->
+  <!-- Try Again Modal -->
   <div id="tryAgainModal">
     <div id="tryAgainCard">
       <h2>Try again 😭</h2>
-      <video id="tryAgainVideo" autoplay muted playsinline></video>
+      <video id="tryAgainVideo" playsinline></video>
       <div style="margin-top:10px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
         <button id="skipTryAgainBtn" type="button">Skip</button>
       </div>
@@ -300,16 +251,12 @@
     function switchTab(tabId) {
       tabPanels.forEach(p => p.classList.remove("active"));
       tabButtons.forEach(b => b.classList.remove("active"));
-
       document.getElementById(tabId).classList.add("active");
       document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add("active");
     }
 
-    tabButtons.forEach(btn => {
-      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
-    });
+    tabButtons.forEach(btn => btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
 
-    // Load Poll #1 archived display (read-only)
     window.addEventListener("load", () => {
       const lastVote1 = localStorage.getItem('lastVoteGlobal_poll1');
       const archivedResult = document.getElementById("archivedResult1");
@@ -333,15 +280,21 @@
     const resultLabel = document.getElementById("resultLabel");
     const startBtn = document.getElementById("startBtn");
 
-    // modal elements 
+    const bgAudio = document.getElementById("polls-audio");
+
     const tryAgainModal = document.getElementById("tryAgainModal");
     const tryAgainVideo = document.getElementById("tryAgainVideo");
     const skipTryAgainBtn = document.getElementById("skipTryAgainBtn");
 
+    let userInteracted = false;  // <-- KEY: unlock audio/video sound after a click
     let videoPlaying = false;
     let locked = false;
+
     let lastGesture = "none";
     let gestureStableCount = 0;
+
+    // Make false positives MUCH less likely (so it doesn't randomly redirect)
+    const STABLE_FRAMES_REQUIRED = 18; // ~0.6s at 30fps
 
     const tryAgainVideos = [
       "Videos/FAH-1.m4v",
@@ -361,7 +314,9 @@
       resultLabel.textContent = "YES!! 💕💕💕 Redirecting...";
       statusText.textContent = "Detected: thumbs up 👍";
       localStorage.setItem("valentine_answer", "YES");
-      setTimeout(() => window.location.href = "love.html", 700);
+
+      // redirect ONLY when thumbs up is truly stable
+      window.location.href = "love.html";
     }
 
     function playRandomTryAgainVideo() {
@@ -376,17 +331,16 @@
       openTryAgainModal();
       tryAgainVideo.pause();
       tryAgainVideo.currentTime = 0;
-
       tryAgainVideo.src = pick;
-
-      tryAgainVideo.autoplay = true;
-      tryAgainVideo.muted = false;      
-      tryAgainVideo.playsInline = true; 
+      tryAgainVideo.playsInline = true;
       tryAgainVideo.controls = false;
 
+      // Autoplay rules:
+      // - Autoplay WITH SOUND is blocked unless user has interacted.
+      // - So: if user clicked Enable Camera, allow sound. Otherwise mute.
+      tryAgainVideo.muted = !userInteracted;
 
       tryAgainVideo.load();
-
       const p = tryAgainVideo.play();
       if (p && typeof p.catch === "function") p.catch(() => {});
     }
@@ -419,19 +373,34 @@
       }
     });
 
-    function classifyThumbGesture(landmarks) {
-      const wrist = landmarks[0];
-      const thumbTip = landmarks[4];
-      const thumbIP = landmarks[3];
+    // Stronger gesture classifier to reduce random "up" triggers:
+    // Thumb up/down AND other fingers mostly curled.
+    function classifyThumbGesture(lm) {
+      const wrist = lm[0];
 
-      const thumbUp = thumbTip.y < wrist.y - 0.03;
+      const thumbTip = lm[4];
+      const thumbIP  = lm[3];
+
+      const indexTip = lm[8],  indexPIP = lm[6];
+      const midTip   = lm[12], midPIP   = lm[10];
+      const ringTip  = lm[16], ringPIP  = lm[14];
+      const pinkTip  = lm[20], pinkPIP  = lm[18];
+
+      const thumbUp   = thumbTip.y < wrist.y - 0.03;
       const thumbDown = thumbTip.y > wrist.y + 0.03;
 
       const thumbExtended =
         Math.abs(thumbTip.y - thumbIP.y) > 0.015 || Math.abs(thumbTip.x - thumbIP.x) > 0.015;
 
-      if (thumbExtended && thumbUp) return "up";
-      if (thumbExtended && thumbDown) return "down";
+      // fingers curled (tips below their PIP joints)
+      const fingersCurled =
+        (indexTip.y > indexPIP.y) &&
+        (midTip.y   > midPIP.y)   &&
+        (ringTip.y  > ringPIP.y)  &&
+        (pinkTip.y  > pinkPIP.y);
+
+      if (thumbExtended && fingersCurled && thumbUp) return "up";
+      if (thumbExtended && fingersCurled && thumbDown) return "down";
       return "none";
     }
 
@@ -463,12 +432,14 @@
 
       if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
         const lm = results.multiHandLandmarks[0];
+
         drawConnectors(ctx, lm, HAND_CONNECTIONS, { lineWidth: 3 });
         drawLandmarks(ctx, lm, { lineWidth: 2 });
 
         const gesture = classifyThumbGesture(lm);
         if (!locked) statusText.textContent = `Detected: ${gesture}`;
 
+        // stability
         if (gesture === lastGesture && gesture !== "none") {
           gestureStableCount++;
         } else {
@@ -476,7 +447,7 @@
           lastGesture = gesture;
         }
 
-        if (!locked && gestureStableCount >= 8) {
+        if (!locked && gestureStableCount >= STABLE_FRAMES_REQUIRED) {
           if (gesture === "up") showYesAndRedirect();
           if (gesture === "down") showNo();
         }
@@ -490,9 +461,15 @@
     });
 
     async function startCamera() {
+      userInteracted = true;
+
+      // START BACKGROUND AUDIO RELIABLY (this click unlocks autoplay)
+      bgAudio.muted = false;
+      bgAudio.volume = 1;
+      bgAudio.play().catch(() => {});
+
       if (!navigator.mediaDevices?.getUserMedia) {
-        statusText.textContent =
-          "Camera not available. Use http://localhost or https:// in Chrome/Safari.";
+        statusText.textContent = "Camera not available. Use http://localhost or https:// in Chrome/Safari.";
         throw new Error("getUserMedia unavailable");
       }
 
