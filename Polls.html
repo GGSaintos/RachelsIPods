@@ -196,15 +196,13 @@
 
     <h1>Hello my love 💕 please vote below</h1>
 
-    <!-- Tabs -->
     <div class="tabs">
       <button class="tab-btn active" data-tab="currentPollTab">Current Poll</button>
       <button class="tab-btn" data-tab="previousPollsTab">Previous Polls</button>
     </div>
 
-    <!-- ===================== -->
-    <!-- CURRENT POLL (Poll #2) -->
-    <!-- ===================== -->
+    <!-- Current Poll #2 -->
+
     <div id="currentPollTab" class="tab-panel active">
       <section id="poll-2">
         <h1>Poll #2: Will you be my Valentine?</h1>
@@ -214,10 +212,9 @@
         <p id="statusText"></p>
 
         <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:16px;">
-          <!-- Camera -->
+    
           <div class="cam-card">
             <div class="video-wrapper">
-              <!-- removed autoplay for reliability; JS starts camera -->
               <video id="cam" playsinline muted></video>
               <canvas id="overlay"></canvas>
             </div>
@@ -279,7 +276,7 @@
 
   </div>
 
-  <!-- Try Again Modal (must be BEFORE JS that queries it) -->
+  <!-- Try Again Modal-->
   <div id="tryAgainModal">
     <div id="tryAgainCard">
       <h2>Try again 😭</h2>
@@ -322,7 +319,7 @@
     });
   </script>
 
-  <!-- MediaPipe Hands (LOAD ONCE) -->
+  <!-- MediaPipe Hands -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.min.js"></script>
@@ -336,7 +333,7 @@
     const resultLabel = document.getElementById("resultLabel");
     const startBtn = document.getElementById("startBtn");
 
-    // modal elements (valid because modal HTML is above)
+    // modal elements 
     const tryAgainModal = document.getElementById("tryAgainModal");
     const tryAgainVideo = document.getElementById("tryAgainVideo");
     const skipTryAgainBtn = document.getElementById("skipTryAgainBtn");
@@ -380,16 +377,14 @@
       tryAgainVideo.pause();
       tryAgainVideo.currentTime = 0;
 
-      // IMPORTANT: set src BEFORE play()
       tryAgainVideo.src = pick;
 
-      // guarantee autoplay (muted)
       tryAgainVideo.autoplay = true;
       tryAgainVideo.muted = false;      
-      tryAgainVideo.playsInline = true; // iPhone
+      tryAgainVideo.playsInline = true; 
       tryAgainVideo.controls = false;
 
-      // force load + play
+
       tryAgainVideo.load();
 
       const p = tryAgainVideo.play();
